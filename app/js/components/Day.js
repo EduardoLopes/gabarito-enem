@@ -27,6 +27,7 @@ class Day extends React.Component {
 
   colorClickHandle(e){
 
+    this.questionItems = [];
     this.props.onChangeColor(e);
 
   }
@@ -55,7 +56,6 @@ class Day extends React.Component {
 
       } else {
         this.questionItems[this.props.lastQuestionClicked] = <Question setLetter={this.handleSetLetter} id={this.props.lastQuestionClicked} key={this.props.lastQuestionClicked.toString()} correct={this.props.questions[this.props.lastQuestionClicked].correct} choosed={this.props.questions[this.props.lastQuestionClicked].choosed}/>;
-
       }
 
     }

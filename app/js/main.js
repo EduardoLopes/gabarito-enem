@@ -95,8 +95,6 @@ class App extends React.Component {
 
   colorClickHandle(e){
 
-    this.questionItems = [];
-
   }
 
   colorClickDayOneHandle(e){
