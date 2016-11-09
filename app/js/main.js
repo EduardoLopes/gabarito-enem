@@ -104,17 +104,75 @@ class Question extends React.Component {
 
 }
 
+
+
 ///data
 
-const questionItems = [];
+class App extends React.Component {
 
-for (var d in data){
-  questionItems.push(<Question id={d} key={d.toString()} correct={data[d]}/>)
+  constructor(props) {
+
+    super(props);
+
+    this.state = {
+      dayOne : 'amarelo',
+      dayTwo : null,
+      dayOneColors: ['azul', 'amarelo', 'branco', 'rosa'],
+      dayTwoColors: ['amarelo', 'cinza', 'azul', 'rosa'],
+    }
+
+  }
+
+  colorClickHandle(e){
+
+    this.setState({dayOne: e});
+
+  }
+
+  render(){
+
+    const questionItems = [];
+
+    for (var d in data){
+      questionItems.push(<Question id={d} key={d.toString()} correct={data[d]}/>)
+    }
+
+    const listItems = this.state.dayOneColors.map(function(color){
+
+      var className;
+      var bsStyle;
+      var active = false;
+
+      if(color == this.state.dayOne){
+        active = true;
+      }
+
+      return (
+        <div key={color.toString() + 'group'} className="btn-group" role="group">
+          <Button onClick={this.colorClickHandle.bind(this, color)} key={color.toString()} className={color} bsSize="sm" active={active}>{color}</Button>
+        </div>
+      )
+
+    }.bind(this));
+
+    return (
+      <div>
+        <Col lg={12} >
+          <ButtonGroup justified>
+            <div className="btn-group" role="group">
+              <Button bsSize="sm" active>1° Dia:</Button>
+            </div>
+            {listItems}
+          </ButtonGroup>
+        </Col>
+        {questionItems}
+      </div>
+    );
+  }
+
 }
 
 ReactDOM.render(
-  <div>
-    {questionItems}
-  </div>,
+  <App />,
   document.getElementById('root')
 );

@@ -25,3 +25,27 @@ button.btn-default{
 div.btn-group{
   margin-bottom: 10px;
 }
+
+.btn.btn-default{
+  text-transform:capitalize;
+}
+
+.btn.btn-default.azul:active,
+.btn.btn-default.azul.active{
+  background-color: #30b8eb;
+}
+
+.btn.btn-default.amarelo:active,
+.btn.btn-default.amarelo.active{
+  background-color: #f1ea67;
+}
+
+.btn.btn-default.branco:active,
+.btn.btn-default.branco.active{
+  background-color: #ffffff;
+}
+
+.btn.btn-default.rosa:active,
+.btn.btn-default.rosa.active{
+  background-color: #e65f9f;
+}
