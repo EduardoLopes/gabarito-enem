@@ -4,6 +4,8 @@ import ButtonGroup  from 'react-bootstrap/lib/ButtonGroup';
 import Col          from 'react-bootstrap/lib/Col';
 import Letter       from './Letter';
 
+const letters = ['A', 'B', 'C', 'D', 'E'];
+
 class Question extends React.Component {
 
   constructor(props) {
@@ -22,7 +24,6 @@ class Question extends React.Component {
 
   render(){
 
-    const letters = ['A', 'B', 'C', 'D', 'E'];
     const listItems = letters.map(function(letter){
 
       var className;

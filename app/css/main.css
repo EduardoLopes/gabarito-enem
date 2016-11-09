@@ -49,3 +49,7 @@ div.btn-group{
 .btn.btn-default.rosa.active{
   background-color: #e65f9f;
 }
+
+.center-text{
+  text-align: center;
+}

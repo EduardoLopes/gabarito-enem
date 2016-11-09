@@ -34,11 +34,14 @@ class App extends React.Component {
     this.questionItems = [];
     this.lastQuestionClicked = null;
 
+    this.correctCount = 0;
+    this.wrongCount = 0;
+
     this.state = {
       dayOne : null,
       dayTwo : null,
       dayOneColors: ['azul', 'amarelo', 'branco', 'rosa'],
-      dayTwoColors: ['amarelo', 'cinza', 'azul', 'rosa'],
+      dayTwoColors: ['amarelo', 'cinza', 'azul', 'rosa']
     }
 
     for (let i = 0; i < 90; i++) {
@@ -124,17 +127,47 @@ class App extends React.Component {
 
     }.bind(this));
 
+    this.correctCount = 0;
+    this.wrongCount = 0;
+
+    for (let d in this.state){
+
+      if(isNumber(d)){
+
+        if(typeof(this.state[d].choosed) !== 'undefined' && this.state[d].choosed !== null){
+
+          if(this.state[d].correct == this.state[d].choosed){
+
+            this.correctCount += 1;
+
+          }
+
+          if(this.state[d].correct != this.state[d].choosed){
+
+            this.wrongCount += 1;
+
+          }
+
+        }
+
+      }
+
+    }
+
     return (
       <div>
         <Col lg={12} >
+          <hr/>
+          <h2 className="center-text">Primeiro Dia</h2>
           <ButtonGroup justified>
-            <div className="btn-group" role="group">
-              <Button bsSize="sm" active>1° Dia:</Button>
-            </div>
             {listItems}
           </ButtonGroup>
-        </Col>
         {this.questionItems}
+          <h3>Resultado do Primeiro Dia: </h3>
+          Acertos: {this.correctCount} <br/>
+          Erros: {this.wrongCount}
+        </Col>
+        <hr/>
       </div>
     );
   }
