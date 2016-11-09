@@ -12,6 +12,11 @@ import dia1Rosa     from './../gabaritos/2016/dia1-rosa.json';
 
 import Letter   from './components/Letter';
 import Question from './components/Question';
+import Day      from './components/Day';
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 const gabaritosDayOne = [];
 
@@ -20,22 +25,22 @@ gabaritosDayOne['amarelo'] = dia1Amarelo;
 gabaritosDayOne['branco'] = dia1branco;
 gabaritosDayOne['rosa'] = dia1Rosa;
 
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
 class App extends React.Component {
 
   constructor(props) {
 
     super(props);
 
-    this.currentQuestions = {};
-    this.questionItems = [];
     this.lastQuestionClicked = null;
 
     this.correctCount = 0;
     this.wrongCount = 0;
+
+    this.dayOneCorrectCount = 0;
+    this.dayOneWrongCount = 0;
+
+    this.dayTwoCorrectCount = 0;
+    this.dayTwoWrongCount = 0;
 
     this.state = {
       dayOne : null,
@@ -49,6 +54,11 @@ class App extends React.Component {
     }
 
     this.handleSetLetter = this.handleSetLetter.bind(this);
+
+    this.colorClickDayOneHandle = this.colorClickDayOneHandle.bind(this);
+    this.colorClickDayTwoHandle = this.colorClickDayTwoHandle.bind(this);
+    this.updateDayOneTotalResult = this.updateDayOneTotalResult.bind(this);
+    this.updateDayTwoTotalResult = this.updateDayTwoTotalResult.bind(this);
 
   }
 
@@ -65,13 +75,9 @@ class App extends React.Component {
 
   }
 
-  colorClickHandle(e){
+  getNewGabarito(gabarito){
 
-
-    this.questionItems = [];
-
-    let data = gabaritosDayOne[e];
-
+    let data = gabaritosDayOne[gabarito];
     var newData = {};
 
     for (let d in data){
@@ -83,89 +89,69 @@ class App extends React.Component {
 
     }
 
-    newData['dayOne'] = e;
+    return newData;
 
-    this.setState(newData);
+  }
+
+  colorClickHandle(e){
+
+    this.questionItems = [];
+
+  }
+
+  colorClickDayOneHandle(e){
+
+    this.colorClickHandle(e);
+    let data = this.getNewGabarito(e);
+
+    data['dayOne'] = e;
+    this.setState(data);
+
+  }
+
+  colorClickDayTwoHandle(e){
+
+    this.colorClickHandle(e);
+    let data = this.getNewGabarito(e);
+
+    data['dayOne'] = e;
+    this.setState(data);
+
+  }
+
+  updateDayOneTotalResult(correct, wrong){
+
+    this.dayOneCorrectCount = correct;
+    this.dayOneWrongCount = wrong;
+
+  }
+
+  updateDayTwoTotalResult(correct, wrong){
+
+    this.dayTwoCorrectCount = correct;
+    this.dayTwoWrongCount = wrong;
 
   }
 
   render(){
 
-    if(this.state.dayOne != null){
-
-      if(this.questionItems.length == 0){
-
-        for (let d in this.state){
-
-          if(isNumber(d)){
-            this.questionItems[d] = <Question setLetter={this.handleSetLetter} id={d} key={d.toString()} correct={this.state[d].correct} choosed={this.state[d].choosed}/>;
-          }
-
-        }
-
-      } else {
-        this.questionItems[this.lastQuestionClicked] = <Question setLetter={this.handleSetLetter} id={this.lastQuestionClicked} key={this.lastQuestionClicked.toString()} correct={this.state[this.lastQuestionClicked].correct} choosed={this.state[this.lastQuestionClicked].choosed}/>;
-      }
-
-    }
-
-    const listItems = this.state.dayOneColors.map(function(color){
-
-      var className;
-      var bsStyle;
-      var active = false;
-
-      if(color == this.state.dayOne){
-        active = true;
-      }
-
-      return (
-        <div key={color.toString() + 'group'} className="btn-group" role="group">
-          <Button onClick={this.colorClickHandle.bind(this, color)} key={color.toString()} className={color} bsSize="sm" active={active}>{color}</Button>
-        </div>
-      )
-
-    }.bind(this));
-
-    this.correctCount = 0;
-    this.wrongCount = 0;
-
-    for (let d in this.state){
-
-      if(isNumber(d)){
-
-        if(typeof(this.state[d].choosed) !== 'undefined' && this.state[d].choosed !== null){
-
-          if(this.state[d].correct == this.state[d].choosed){
-
-            this.correctCount += 1;
-
-          }
-
-          if(this.state[d].correct != this.state[d].choosed){
-
-            this.wrongCount += 1;
-
-          }
-
-        }
-
-      }
-
-    }
-
     return (
       <div>
         <Col lg={12} >
-          <hr/>
-          <h2 className="center-text">Primeiro Dia</h2>
-          <ButtonGroup justified>
-            {listItems}
-          </ButtonGroup>
-        {this.questionItems}
-          <h3>Resultado do Primeiro Dia: </h3>
-          Acertos: {this.correctCount} <br/>
-          Erros: {this.wrongCount}
+          <Day
+            title="Primeiro Dia"
+            lastQuestionClicked={this.lastQuestionClicked}
+            gabaritoList={this.state.dayOneColors}
+            gabarito={this.state.dayOne}
+            colors={this.state.dayOneColors}
+            onChangeColor={this.colorClickDayOneHandle}
+            questions={this.state}
+            handleSetLetter={this.handleSetLetter}
+            updateResults={this.updateDayOneTotalResult}
+            from={1}
+            to={90}
+          >
+          </Day>
         </Col>
         <hr/>
       </div>
