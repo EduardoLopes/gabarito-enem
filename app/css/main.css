@@ -1,1 +1,27 @@
 /*! main.css */
+
+button.btn-default{
+
+  border-bottom-width: 2px;
+  border-top-width: 2px;
+
+
+}
+
+.btn.btn-default.correct:focus,
+.btn-default.correct{
+  border-top-color: #449d44;
+  color: #449d44;
+  outline: 0;
+}
+
+.btn.btn-default.wrong:focus,
+.btn-default.wrong{
+  border-bottom-color: #c9302c;
+  color: #c9302c;
+  outline: 0;
+}
+
+div.btn-group{
+  margin-bottom: 10px;
+}
