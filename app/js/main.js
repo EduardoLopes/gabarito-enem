@@ -15,6 +15,10 @@ gabaritosDayOne['amarelo'] = dia1Amarelo;
 gabaritosDayOne['branco'] = dia1branco;
 gabaritosDayOne['rosa'] = dia1Rosa;
 
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 class Letter extends React.Component {
 
   constructor(props) {
@@ -120,6 +124,8 @@ class App extends React.Component {
     super(props);
 
     this.currentQuestions = {};
+    this.questionItems = [];
+    this.lastQuestionClicked = null;
 
     this.state = {
       dayOne : null,
@@ -128,50 +134,68 @@ class App extends React.Component {
       dayTwoColors: ['amarelo', 'cinza', 'azul', 'rosa'],
     }
 
+    for (let i = 0; i < 90; i++) {
+      this.state[i + 1] = {correct: null, choosed: null};
+    }
+
     this.handleSetLetter = this.handleSetLetter.bind(this);
 
   }
 
   handleSetLetter(id, letter){
 
-    this.currentQuestions[id] = {
-        correct: this.currentQuestions[id].correct,
-        choosed : letter
-    }
+    var newData = {};
+    this.lastQuestionClicked = id;
+    newData[id] = {
+      correct: this.state[id].correct,
+      choosed : letter
+    };
 
-    this.setState({
-      currentQuestions: this.currentQuestions
-    });
+    this.setState(newData);
 
   }
 
   colorClickHandle(e){
 
+
+    this.questionItems = [];
+
     let data = gabaritosDayOne[e];
+
+    var newData = {};
 
     for (let d in data){
 
-      this.currentQuestions[d] = {
+      newData[d] = {
         correct: data[d],
         choosed : null
       }
 
     }
 
-    this.setState({
-      dayOne: e,
-      currentQuestions: this.currentQuestions
-    });
+    newData['dayOne'] = e;
+
+    this.setState(newData);
 
   }
 
   render(){
 
-    const questionItems = [];
+    if(this.state.dayOne != null){
 
-    for (let d in this.state.currentQuestions){
+      if(this.questionItems.length == 0){
 
-      questionItems.push(<Question setLetter={this.handleSetLetter} id={d} key={d.toString()} correct={this.state.currentQuestions[d].correct} choosed={this.state.currentQuestions[d].choosed}/>)
+        for (let d in this.state){
+
+          if(isNumber(d)){
+            this.questionItems[d] = <Question setLetter={this.handleSetLetter} id={d} key={d.toString()} correct={this.state[d].correct} choosed={this.state[d].choosed}/>;
+          }
+
+        }
+
+      } else {
+        this.questionItems[this.lastQuestionClicked] = <Question setLetter={this.handleSetLetter} id={this.lastQuestionClicked} key={this.lastQuestionClicked.toString()} correct={this.state[this.lastQuestionClicked].correct} choosed={this.state[this.lastQuestionClicked].choosed}/>;
+      }
 
     }
 
@@ -203,7 +227,7 @@ class App extends React.Component {
             {listItems}
           </ButtonGroup>
         </Col>
-        {questionItems}
+        {this.questionItems}
       </div>
     );
   }
