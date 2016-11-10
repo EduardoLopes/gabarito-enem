@@ -10,6 +10,12 @@ import dia1Amarelo  from './../gabaritos/2016/dia1-amarelo.json';
 import dia1branco   from './../gabaritos/2016/dia1-branco.json';
 import dia1Rosa     from './../gabaritos/2016/dia1-rosa.json';
 
+
+import dia2Amarelo  from './../gabaritos/2016/dia2-amarelo.json';
+import dia2Cinza    from './../gabaritos/2016/dia2-cinza.json';
+import dia2Azul     from './../gabaritos/2016/dia2-azul.json';
+import dia2Rosa     from './../gabaritos/2016/dia2-rosa.json';
+
 import Letter   from './components/Letter';
 import Question from './components/Question';
 import Day      from './components/Day';
@@ -19,11 +25,17 @@ function isNumber(n) {
 }
 
 const gabaritosDayOne = [];
+const gabaritosDayTwo = [];
 
 gabaritosDayOne['azul'] = dia1Azul;
 gabaritosDayOne['amarelo'] = dia1Amarelo;
 gabaritosDayOne['branco'] = dia1branco;
 gabaritosDayOne['rosa'] = dia1Rosa;
+
+gabaritosDayTwo['amarelo'] = dia2Amarelo;
+gabaritosDayTwo['cinza'] = dia2Cinza;
+gabaritosDayTwo['azul'] = dia2Azul;
+gabaritosDayTwo['rosa'] = dia2Rosa;
 
 class App extends React.Component {
 
@@ -46,7 +58,8 @@ class App extends React.Component {
       dayOne : null,
       dayTwo : null,
       dayOneColors: ['azul', 'amarelo', 'branco', 'rosa'],
-      dayTwoColors: ['amarelo', 'cinza', 'azul', 'rosa']
+      dayTwoColors: ['amarelo', 'cinza', 'azul', 'rosa'],
+      languageChoosed: null
     }
 
     for (let i = 0; i < 90; i++) {
@@ -59,6 +72,7 @@ class App extends React.Component {
     this.colorClickDayTwoHandle = this.colorClickDayTwoHandle.bind(this);
     this.updateDayOneTotalResult = this.updateDayOneTotalResult.bind(this);
     this.updateDayTwoTotalResult = this.updateDayTwoTotalResult.bind(this);
+    this.onChangeLanguage = this.onChangeLanguage.bind(this);
 
   }
 
@@ -75,9 +89,8 @@ class App extends React.Component {
 
   }
 
-  getNewGabarito(gabarito){
+  getNewGabarito(data){
 
-    let data = gabaritosDayOne[gabarito];
     var newData = {};
 
     for (let d in data){
@@ -93,6 +106,26 @@ class App extends React.Component {
 
   }
 
+  onChangeLanguage(e){
+
+    let data = gabaritosDayTwo[this.state.dayTwo][e];
+    let newData = {};
+
+    for (let d in data){
+
+      newData[d] = {
+        correct: data[d],
+        choosed : null
+      }
+
+    }
+
+    newData['languageChoosed'] = e;
+
+    this.setState(newData);
+
+  }
+
   colorClickHandle(e){
 
   }
@@ -100,7 +133,7 @@ class App extends React.Component {
   colorClickDayOneHandle(e){
 
     this.colorClickHandle(e);
-    let data = this.getNewGabarito(e);
+    let data = this.getNewGabarito(gabaritosDayOne[e]);
 
     data['dayOne'] = e;
     this.setState(data);
@@ -110,9 +143,22 @@ class App extends React.Component {
   colorClickDayTwoHandle(e){
 
     this.colorClickHandle(e);
-    let data = this.getNewGabarito(e);
+    let data = this.getNewGabarito(gabaritosDayTwo[e]);
 
-    data['dayOne'] = e;
+    data['dayTwo'] = e;
+
+    let language_data = gabaritosDayTwo[e][this.state.languageChoosed];
+    let newData = {};
+
+    for (let d in language_data){
+
+      data[d] = {
+        correct: language_data[d],
+        choosed : null
+      }
+
+    }
+
     this.setState(data);
 
   }
@@ -148,6 +194,25 @@ class App extends React.Component {
             updateResults={this.updateDayOneTotalResult}
             from={1}
             to={90}
+          >
+          </Day>
+        </Col>
+        <Col lg={12} >
+          <Day
+            language
+            title="Segundo Dia"
+            onChangeLanguage={this.onChangeLanguage}
+            languageChoosed={this.state.languageChoosed}
+            lastQuestionClicked={this.lastQuestionClicked}
+            gabaritoList={this.state.dayTwoColors}
+            gabarito={this.state.dayTwo}
+            colors={this.state.dayTwoColors}
+            onChangeColor={this.colorClickDayTwoHandle}
+            questions={this.state}
+            handleSetLetter={this.handleSetLetter}
+            updateResults={this.updateDayTwoTotalResult}
+            from={91}
+            to={180}
           >
           </Day>
         </Col>

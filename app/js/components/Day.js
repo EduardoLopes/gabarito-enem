@@ -17,6 +17,7 @@ class Day extends React.Component {
     super(props);
 
     this.colorClickHandle = this.colorClickHandle.bind(this);
+    this.languageClickHandle = this.languageClickHandle.bind(this);
     this.handleSetLetter = this.handleSetLetter.bind(this);
     this.questionItems = [];
 
@@ -27,8 +28,16 @@ class Day extends React.Component {
 
   colorClickHandle(e){
 
-    this.questionItems = [];
+    this.questionItems.length = 0;
     this.props.onChangeColor(e);
+
+  }
+
+  languageClickHandle(e){
+
+    this.props.onChangeLanguage(e);
+
+    this.questionItems.length = 0;
 
   }
 
@@ -40,7 +49,7 @@ class Day extends React.Component {
 
   render(){
 
-    if(this.props.gabarito != null){
+    if(this.props.gabarito != null && this.props.languageChoosed != null){
 
       if(this.questionItems.length == 0){
 
@@ -55,7 +64,9 @@ class Day extends React.Component {
         }
 
       } else {
-        this.questionItems[this.props.lastQuestionClicked] = <Question setLetter={this.handleSetLetter} id={this.props.lastQuestionClicked} key={this.props.lastQuestionClicked.toString()} correct={this.props.questions[this.props.lastQuestionClicked].correct} choosed={this.props.questions[this.props.lastQuestionClicked].choosed}/>;
+        if(parseInt(this.props.lastQuestionClicked) <= this.props.to && parseInt(this.props.lastQuestionClicked) >= this.props.from){
+          this.questionItems[this.props.lastQuestionClicked] = <Question setLetter={this.handleSetLetter} id={this.props.lastQuestionClicked} key={this.props.lastQuestionClicked.toString()} correct={this.props.questions[this.props.lastQuestionClicked].correct} choosed={this.props.questions[this.props.lastQuestionClicked].choosed}/>;
+        }
       }
 
     }
@@ -101,12 +112,39 @@ class Day extends React.Component {
       }
     }
 
+    let listLanguageItems = [];
+
+    if(this.props.language && this.props.gabarito){
+
+      listLanguageItems = ["ingles", "espanhol"].map(function(language){
+
+        var className;
+        var bsStyle;
+        var active = false;
+
+        if(language == this.props.languageChoosed){
+          active = true;
+        }
+
+        return (
+          <div key={language.toString() + 'group'} className="btn-group" role="group">
+            <Button onClick={this.languageClickHandle.bind(this, language)} key={language.toString()} className={language} bsSize="sm" active={active}>{language}</Button>
+          </div>
+        )
+
+      }.bind(this));
+
+    }
+
     return (
       <div>
           <hr/>
           <h2 className="center-text">{this.props.title}</h2>
           <ButtonGroup justified>
             {listItems}
+          </ButtonGroup>
+          <ButtonGroup justified>
+            {listLanguageItems}
           </ButtonGroup>
           {this.questionItems}
           <h3>Resultado do {this.props.title}: </h3>
