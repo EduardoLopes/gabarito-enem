@@ -3,6 +3,7 @@ import ButtonGroup  from 'react-bootstrap/lib/ButtonGroup';
 import Button       from 'react-bootstrap/lib/Button';
 import Col          from 'react-bootstrap/lib/Col';
 import Question     from './Question';
+import Results      from './Results';
 
 
 
@@ -50,6 +51,30 @@ class Day extends React.Component {
   render(){
 
     let languageChoosed = this.props.languageChoosed;
+    let results = null;
+
+    this.correctCount = 0;
+    this.wrongCount = 0;
+
+    for (let d in this.props.questions){
+      if(isNumber(d)){
+        if(parseInt(d) <= parseInt(this.props.to) && parseInt(d) >= parseInt(this.props.from)){
+          if(typeof(this.props.questions[d].choosed) !== 'undefined' && this.props.questions[d].choosed !== null){
+            if(this.props.questions[d].correct == this.props.questions[d].choosed){
+
+              this.correctCount += 1;
+
+            }
+
+            if(this.props.questions[d].correct != this.props.questions[d].choosed){
+
+              this.wrongCount += 1;
+
+            }
+          }
+        }
+      }
+    }
 
     if(typeof(languageChoosed) == 'undefined'){
 
@@ -77,6 +102,8 @@ class Day extends React.Component {
         }
       }
 
+      results = <Results title={this.props.title} correctCount={this.correctCount} wrongCount={this.wrongCount} />;
+
     }
 
     const listItems = this.props.colors.map(function(color){
@@ -96,29 +123,6 @@ class Day extends React.Component {
       )
 
     }.bind(this));
-
-    this.correctCount = 0;
-    this.wrongCount = 0;
-
-    for (let d in this.props.questions){
-      if(isNumber(d)){
-        if(parseInt(d) <= parseInt(this.props.to) && parseInt(d) >= parseInt(this.props.from)){
-          if(typeof(this.props.questions[d].choosed) !== 'undefined' && this.props.questions[d].choosed !== null){
-            if(this.props.questions[d].correct == this.props.questions[d].choosed){
-
-              this.correctCount += 1;
-
-            }
-
-            if(this.props.questions[d].correct != this.props.questions[d].choosed){
-
-              this.wrongCount += 1;
-
-            }
-          }
-        }
-      }
-    }
 
     let listLanguageItems = [];
 
@@ -145,21 +149,22 @@ class Day extends React.Component {
     }
 
     return (
-      <div>
-          <hr/>
-          <h2 className="center-text">{this.props.title}</h2>
-          <ButtonGroup justified>
-            {listItems}
-          </ButtonGroup>
-          <ButtonGroup justified>
-            {listLanguageItems}
-          </ButtonGroup>
+      <Col lg={12} >
+        <h2 className="center-text">{this.props.title}</h2>
+        <ButtonGroup justified>
+          {listItems}
+        </ButtonGroup>
+        <ButtonGroup justified>
+          {listLanguageItems}
+        </ButtonGroup>
+        <div>
           {this.questionItems}
-          <h3>Resultado do {this.props.title}: </h3>
-          Acertos: {this.correctCount} <br/>
-          Erros: {this.wrongCount}
-        <hr/>
-      </div>
+        </div>
+        <div>
+        {results}
+        </div>
+        <br />
+      </Col>
     );
   }
 

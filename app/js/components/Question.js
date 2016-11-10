@@ -63,7 +63,7 @@ class Question extends React.Component {
       <Col xs={12} md={4} lg={3} >
         <ButtonGroup justified>
           <div className="btn-group" role="group">
-            <Button bsStyle={bsStyle} bsSize="large" active>{this.props.id}</Button>
+            <Button bsStyle={bsStyle} bsSize="sm" active>{this.props.id}</Button>
           </div>
           {listItems}
         </ButtonGroup>

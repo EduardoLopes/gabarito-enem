@@ -196,8 +196,9 @@ class App extends React.Component {
             to={90}
           >
           </Day>
-        </Col>
-        <Col lg={12} >
+
+          <hr />
+
           <Day
             language
             title="Segundo Dia"
@@ -216,7 +217,6 @@ class App extends React.Component {
           >
           </Day>
         </Col>
-        <hr/>
       </div>
     );
   }
