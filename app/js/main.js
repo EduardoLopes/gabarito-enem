@@ -43,8 +43,6 @@ class App extends React.Component {
 
     super(props);
 
-    this.lastQuestionClicked = null;
-
     this.correctCount = 0;
     this.wrongCount = 0;
 
@@ -59,7 +57,8 @@ class App extends React.Component {
       dayTwo : null,
       dayOneColors: ['azul', 'amarelo', 'branco', 'rosa'],
       dayTwoColors: ['amarelo', 'cinza', 'azul', 'rosa'],
-      languageChoosed: null
+      languageChoosed: null,
+      lastQuestionClicked: null
     }
 
     for (let i = 0; i < 90; i++) {
@@ -79,11 +78,13 @@ class App extends React.Component {
   handleSetLetter(id, letter){
 
     var newData = {};
-    this.lastQuestionClicked = id;
+
     newData[id] = {
       correct: this.state[id].correct,
       choosed : letter
     };
+
+    newData['lastQuestionClicked'] = id;
 
     this.setState(newData);
 
@@ -136,6 +137,8 @@ class App extends React.Component {
     let data = this.getNewGabarito(gabaritosDayOne[e]);
 
     data['dayOne'] = e;
+    data['lastQuestionClicked'] = null;
+
     this.setState(data);
 
   }
@@ -146,6 +149,7 @@ class App extends React.Component {
     let data = this.getNewGabarito(gabaritosDayTwo[e]);
 
     data['dayTwo'] = e;
+    data['lastQuestionClicked'] = null;
 
     let language_data = gabaritosDayTwo[e][this.state.languageChoosed];
     let newData = {};
@@ -184,7 +188,7 @@ class App extends React.Component {
         <Col lg={12} >
           <Day
             title="Primeiro Dia"
-            lastQuestionClicked={this.lastQuestionClicked}
+            lastQuestionClicked={this.state.lastQuestionClicked}
             gabaritoList={this.state.dayOneColors}
             gabarito={this.state.dayOne}
             colors={this.state.dayOneColors}
@@ -197,14 +201,14 @@ class App extends React.Component {
           >
           </Day>
 
-          <hr />
+          <hr/>
 
           <Day
             language
             title="Segundo Dia"
             onChangeLanguage={this.onChangeLanguage}
             languageChoosed={this.state.languageChoosed}
-            lastQuestionClicked={this.lastQuestionClicked}
+            lastQuestionClicked={this.state.lastQuestionClicked}
             gabaritoList={this.state.dayTwoColors}
             gabarito={this.state.dayTwo}
             colors={this.state.dayTwoColors}

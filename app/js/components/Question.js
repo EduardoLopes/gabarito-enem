@@ -23,12 +23,21 @@ class Question extends React.Component {
 
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+
+    if(this.props.choosed != nextProps.choosed){
+      return true;
+    }
+
+    return true;
+
+  }
+
   render(){
 
     const listItems = letters.map(function(letter){
 
       var className;
-      var bsStyle;
 
       if(!isEmpty(this.props.choosed)){
 
@@ -42,7 +51,7 @@ class Question extends React.Component {
 
       }
 
-      return <Letter bsStyle={bsStyle} key={letter.toString()} onClick={this.handleClick} className={className} letter={letter}/>;
+      return <Letter key={letter.toString()} onClick={this.handleClick} className={className} letter={letter}/>;
 
     }.bind(this));
 

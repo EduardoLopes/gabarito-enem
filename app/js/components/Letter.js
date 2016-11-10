@@ -17,12 +17,24 @@ class Letter extends React.Component {
 
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+
+    if(this.props.className != nextProps.className){
+      return true;
+    }
+
+    return false;
+
+  }
+
   render(){
+
     return (
       <div className="btn-group" role="group">
         <Button bsStyle={this.props.bsStyle} bsSize="large" onClick={this.handleClick} className={this.props.className}>{this.props.letter}</Button>
       </div>
     );
+
   }
 
 }

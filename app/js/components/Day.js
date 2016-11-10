@@ -52,6 +52,20 @@ class Day extends React.Component {
 
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+
+    if(isEmpty(nextProps.lastQuestionClicked)){
+      return true;
+    }
+
+    if(nextProps.lastQuestionClicked <= this.props.to && nextProps.lastQuestionClicked >= this.props.from){
+      return true;
+    }
+
+    return false;
+
+  }
+
   render(){
 
     let languageChoosed = this.props.languageChoosed;
