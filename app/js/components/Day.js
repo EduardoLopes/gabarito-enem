@@ -4,6 +4,7 @@ import Button       from 'react-bootstrap/lib/Button';
 import Col          from 'react-bootstrap/lib/Col';
 import Question     from './Question';
 import Results      from './Results';
+import isEmpty      from 'is-empty';
 
 
 
@@ -46,6 +47,9 @@ class Day extends React.Component {
 
     this.props.handleSetLetter(id, letter);
 
+    this.correctCount = 0;
+    this.wrongCount = 0;
+
   }
 
   render(){
@@ -59,7 +63,7 @@ class Day extends React.Component {
     for (let d in this.props.questions){
       if(isNumber(d)){
         if(parseInt(d) <= parseInt(this.props.to) && parseInt(d) >= parseInt(this.props.from)){
-          if(typeof(this.props.questions[d].choosed) !== 'undefined' && this.props.questions[d].choosed !== null){
+          if(!isEmpty(this.props.questions[d].choosed)){
             if(this.props.questions[d].correct == this.props.questions[d].choosed){
 
               this.correctCount += 1;
@@ -76,13 +80,13 @@ class Day extends React.Component {
       }
     }
 
-    if(typeof(languageChoosed) == 'undefined'){
+    if(isEmpty(this.props.language)){
 
       languageChoosed = "portugues";
 
     }
 
-    if(this.props.gabarito != null && (languageChoosed != null)){
+    if(!isEmpty(this.props.gabarito) && !isEmpty(languageChoosed)){
 
       if(this.questionItems.length == 0){
 
@@ -126,7 +130,7 @@ class Day extends React.Component {
 
     let listLanguageItems = [];
 
-    if(this.props.language && this.props.gabarito){
+    if(!isEmpty(this.props.language) && !isEmpty(this.props.gabarito)){
 
       listLanguageItems = ["ingles", "espanhol"].map(function(language){
 

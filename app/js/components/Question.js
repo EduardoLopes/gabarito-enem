@@ -3,6 +3,7 @@ import Button       from 'react-bootstrap/lib/Button';
 import ButtonGroup  from 'react-bootstrap/lib/ButtonGroup';
 import Col          from 'react-bootstrap/lib/Col';
 import Letter       from './Letter';
+import isEmpty      from 'is-empty';
 
 const letters = ['A', 'B', 'C', 'D', 'E'];
 
@@ -29,7 +30,7 @@ class Question extends React.Component {
       var className;
       var bsStyle;
 
-      if(typeof(this.props.choosed) != 'undefined'  && this.props.choosed !== null){
+      if(!isEmpty(this.props.choosed)){
 
         if(this.props.choosed == this.props.correct && this.props.choosed == letter || this.props.choosed != this.props.correct && this.props.correct == letter){
           className = 'correct';
@@ -47,7 +48,7 @@ class Question extends React.Component {
 
     var bsStyle;
 
-    if(typeof(this.props.choosed) !== 'undefined' && this.props.choosed !== null){
+    if(!isEmpty(this.props.choosed)){
 
       if(this.props.choosed == this.props.correct){
         bsStyle = 'success';
