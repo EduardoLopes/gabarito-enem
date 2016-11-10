@@ -47,8 +47,33 @@ class Day extends React.Component {
 
     this.props.handleSetLetter(id, letter);
 
-    this.correctCount = 0;
-    this.wrongCount = 0;
+    if(isEmpty(this.props.questions[id].choosed)){
+
+      if(this.props.questions[id].correct == letter){
+        this.correctCount += 1;
+      } else {
+        this.wrongCount += 1;
+      }
+
+    }
+
+    if(!isEmpty(this.props.questions[id].choosed)){
+
+      if(this.props.questions[id].correct == this.props.questions[id].choosed){
+        this.correctCount -=1;
+      } else {
+        this.wrongCount -=1;
+      }
+
+      if(this.props.questions[id].correct == letter){
+        this.correctCount += 1;
+      } else {
+        this.wrongCount += 1;
+      }
+
+    }
+
+    this.props.updateResults(this.correctCount, this.wrongCount);
 
   }
 
@@ -71,29 +96,6 @@ class Day extends React.Component {
     let languageChoosed = this.props.languageChoosed;
     let results = null;
 
-    this.correctCount = 0;
-    this.wrongCount = 0;
-
-    for (let d in this.props.questions){
-      if(isNumber(d)){
-        if(parseInt(d) <= parseInt(this.props.to) && parseInt(d) >= parseInt(this.props.from)){
-          if(!isEmpty(this.props.questions[d].choosed)){
-            if(this.props.questions[d].correct == this.props.questions[d].choosed){
-
-              this.correctCount += 1;
-
-            }
-
-            if(this.props.questions[d].correct != this.props.questions[d].choosed){
-
-              this.wrongCount += 1;
-
-            }
-          }
-        }
-      }
-    }
-
     if(isEmpty(this.props.language)){
 
       languageChoosed = "portugues";
@@ -108,7 +110,7 @@ class Day extends React.Component {
 
           if(isNumber(d)){
             if(parseInt(d) <= this.props.to && parseInt(d) >= this.props.from){
-              this.questionItems[d] = <Question setLetter={this.props.handleSetLetter} id={d} key={d.toString()} correct={this.props.questions[d].correct} choosed={this.props.questions[d].choosed}/>;
+              this.questionItems[d] = <Question setLetter={this.handleSetLetter} id={d} key={d.toString()} correct={this.props.questions[d].correct} choosed={this.props.questions[d].choosed}/>;
             }
           }
 

@@ -58,7 +58,11 @@ class App extends React.Component {
       dayOneColors: ['azul', 'amarelo', 'branco', 'rosa'],
       dayTwoColors: ['amarelo', 'cinza', 'azul', 'rosa'],
       languageChoosed: null,
-      lastQuestionClicked: null
+      lastQuestionClicked: null,
+      dayOneCorrectCount: null,
+      dayOneWrongCount: null,
+      dayTwoCorrectCount: null,
+      dayTwoWrongCount: null
     }
 
     for (let i = 0; i < 90; i++) {
@@ -85,6 +89,8 @@ class App extends React.Component {
     };
 
     newData['lastQuestionClicked'] = id;
+
+
 
     this.setState(newData);
 
@@ -169,15 +175,19 @@ class App extends React.Component {
 
   updateDayOneTotalResult(correct, wrong){
 
-    this.dayOneCorrectCount = correct;
-    this.dayOneWrongCount = wrong;
+    this.setState({
+      dayOneCorrectCount : correct,
+      dayOneWrongCount : wrong
+    })
 
   }
 
   updateDayTwoTotalResult(correct, wrong){
 
-    this.dayTwoCorrectCount = correct;
-    this.dayTwoWrongCount = wrong;
+    this.setState({
+      dayTwoCorrectCount : correct,
+      dayTwoWrongCount : wrong
+    });
 
   }
 
@@ -220,6 +230,14 @@ class App extends React.Component {
             to={180}
           >
           </Day>
+          <div>
+            <h3>Resultado Total:</h3>
+            Total de acertos: {this.state.dayOneCorrectCount + this.state.dayTwoCorrectCount} <br/>
+            Total de erros: {this.state.dayOneWrongCount + this.state.dayTwoWrongCount} <br/>
+          </div>
+
+
+
         </Col>
       </div>
     );
