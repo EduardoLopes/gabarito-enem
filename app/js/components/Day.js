@@ -49,7 +49,15 @@ class Day extends React.Component {
 
   render(){
 
-    if(this.props.gabarito != null && this.props.languageChoosed != null){
+    let languageChoosed = this.props.languageChoosed;
+
+    if(typeof(languageChoosed) == 'undefined'){
+
+      languageChoosed = "portugues";
+
+    }
+
+    if(this.props.gabarito != null && (languageChoosed != null)){
 
       if(this.questionItems.length == 0){
 
