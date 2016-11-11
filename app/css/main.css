@@ -53,3 +53,7 @@ div.btn-group{
 .center-text{
   text-align: center;
 }
+
+button.btn {
+    border-radius: 0;
+}

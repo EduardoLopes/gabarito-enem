@@ -37,9 +37,33 @@ class Day extends React.Component {
 
   languageClickHandle(e){
 
+    if(this.props.languageChoosed === e){
+      return false;
+    }
+
     this.props.onChangeLanguage(e);
 
     this.questionItems.length = 0;
+
+    if(!isEmpty(this.props.language) && !isEmpty(this.props.languageChoosed)){
+
+      for (let i = this.props.from; i < this.props.from + 5; i++) {
+
+        if(!isEmpty(this.props.questions[i].choosed)){
+
+          if(this.props.questions[i].correct == this.props.questions[i].choosed){
+            this.correctCount -= 1;
+          } else {
+            this.wrongCount -= 1;
+          }
+
+        }
+
+      }
+
+    }
+
+    this.props.updateResults(this.correctCount, this.wrongCount);
 
   }
 
@@ -60,9 +84,9 @@ class Day extends React.Component {
     if(!isEmpty(this.props.questions[id].choosed)){
 
       if(this.props.questions[id].correct == this.props.questions[id].choosed){
-        this.correctCount -=1;
+        this.correctCount -= 1;
       } else {
-        this.wrongCount -=1;
+        this.wrongCount -= 1;
       }
 
       if(this.props.questions[id].correct == letter){
