@@ -28,8 +28,17 @@ class Day extends React.Component {
 
   colorClickHandle(e){
 
+    if(this.props.gabarito === e){
+      return false;
+    }
+
     this.questionItems.length = 0;
     this.props.onChangeColor(e);
+
+    this.correctCount = 0;
+    this.wrongCount = 0;
+
+    this.props.updateResults(this.correctCount, this.wrongCount);
 
   }
 
