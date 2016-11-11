@@ -6,8 +6,6 @@ import Question     from './Question';
 import Results      from './Results';
 import isEmpty      from 'is-empty';
 
-
-
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }

@@ -16,9 +16,10 @@ import dia2Cinza    from './../gabaritos/2016/dia2-cinza.json';
 import dia2Azul     from './../gabaritos/2016/dia2-azul.json';
 import dia2Rosa     from './../gabaritos/2016/dia2-rosa.json';
 
-import Letter   from './components/Letter';
-import Question from './components/Question';
-import Day      from './components/Day';
+import Letter       from './components/Letter';
+import Question     from './components/Question';
+import Day          from './components/Day';
+import FinalResults from './components/FinalResults';
 
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
@@ -59,14 +60,10 @@ class App extends React.Component {
       dayTwoColors: ['amarelo', 'cinza', 'azul', 'rosa'],
       languageChoosed: null,
       lastQuestionClicked: null,
-      dayOneCorrectCount: null,
-      dayOneWrongCount: null,
-      dayTwoCorrectCount: null,
-      dayTwoWrongCount: null
-    }
-
-    for (let i = 0; i < 90; i++) {
-      this.state[i + 1] = {correct: null, choosed: null};
+      dayOneCorrectCount: 0,
+      dayOneWrongCount: 0,
+      dayTwoCorrectCount: 0,
+      dayTwoWrongCount: 0
     }
 
     this.handleSetLetter = this.handleSetLetter.bind(this);
@@ -230,14 +227,22 @@ class App extends React.Component {
             to={180}
           >
           </Day>
-          <div>
-            <h3>Resultado Total:</h3>
-            Total de acertos: {this.state.dayOneCorrectCount + this.state.dayTwoCorrectCount} <br/>
-            Total de erros: {this.state.dayOneWrongCount + this.state.dayTwoWrongCount} <br/>
-          </div>
 
+          <hr/>
 
-
+          <Col lg={12} >
+            <FinalResults
+              dayOne={this.state.dayOne}
+              dayTwo={this.state.dayTwo}
+              languageChoosed={this.state.languageChoosed}
+              dayOneCorrectCount={this.state.dayOneCorrectCount}
+              dayTwoCorrectCount={this.state.dayTwoCorrectCount}
+              dayOneWrongCount={this.state.dayOneWrongCount}
+              dayTwoWrongCount={this.state.dayTwoWrongCount}
+            />
+          </Col>
+          <br />
+          <hr/>
         </Col>
       </div>
     );
