@@ -48,7 +48,7 @@ gulp.task('browserify', function() {
 gulp.task('browserify:build', ['clean'], function() {
 
   var bundler = browserify()
-  .transform(babelify, {presets: ["es2015"]})
+  .transform(babelify, {presets: ["es2015", "react"]})
   .require(app + '/js/main.js', { entry: true });
 
   return bundler.bundle()

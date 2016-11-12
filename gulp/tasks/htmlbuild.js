@@ -8,6 +8,7 @@ var uncss = require('gulp-uncss');
 var rename = require('gulp-rename');
 var autoprefixer = require('gulp-autoprefixer');
 var cssbeautify = require('gulp-cssbeautify');
+var purify = require('gulp-purifycss');
 var config = require('../config');
 
 var app = config.dir.app;
@@ -37,6 +38,7 @@ var cssBuild = es.pipeline(
   autoprefixer({
     browsers: ['last 8 versions']
   }),
+  purify([app + '/**/*.js', app + '/index.html']),
   cssbeautify(),
   concat('main.css'),
   gulp.dest(dist + '/css'),
