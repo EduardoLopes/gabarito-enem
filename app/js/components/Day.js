@@ -201,7 +201,7 @@ class Day extends React.Component {
 
     return (
       <Col lg={12} >
-        <h2 className="center-text">{this.props.title}</h2>
+        <h2>{this.props.title}</h2>
         <ButtonGroup justified>
           {listItems}
         </ButtonGroup>

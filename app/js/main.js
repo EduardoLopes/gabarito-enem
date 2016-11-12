@@ -193,6 +193,12 @@ class App extends React.Component {
     return (
       <div>
         <Col lg={12} >
+          <Col lg={12} >
+            <div className="page-header">
+              <h1>Enem 2016</h1>
+              Este website visa facilitar a correç&atilde;o das provas do enem. Para checar os gabaritos em PDF acesse o <a href="http://enem.inep.gov.br/gabaritos-e-cadernos-de-questoes.html">site oficial</a> do enem.
+            </div>
+          </Col>
           <Day
             title="Primeiro Dia"
             lastQuestionClicked={this.state.lastQuestionClicked}
@@ -244,6 +250,11 @@ class App extends React.Component {
           <br />
           <hr/>
         </Col>
+          <Col lg={12} >
+            <div className="page-footer center-text">
+              Feito por <a href="https://github.com/EduardoLopes">Eduardo</a> <a href="http://codepen.io/EduardoLopes/">Lopes</a>
+            </div>
+          </Col>
       </div>
     );
   }
