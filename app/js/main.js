@@ -255,6 +255,7 @@ class App extends React.Component {
               Feito por <a href="https://github.com/EduardoLopes">Eduardo</a> <a href="http://codepen.io/EduardoLopes/">Lopes</a>
             </div>
           </Col>
+          <hr/>
       </div>
     );
   }
